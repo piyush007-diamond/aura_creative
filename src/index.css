@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Caveat:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Great+Vibes&family=Montserrat:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-poppins: "Poppins", sans-serif;
+  --font-caveat: "Caveat", cursive;
+  --font-signature: "Great Vibes", cursive;
+  --font-montserrat: "Montserrat", sans-serif;
+  
+  --color-primary: #151ab2;
+  --color-primary-light: #4c68e2;
+  --color-accent: #ffd52f;
+  --color-accent-dark: #fea724;
+
+  --animate-aurora: aurora 60s linear infinite;
+  @keyframes aurora {
+    from {
+      background-position: 50% 50%, 50% 50%;
+    }
+    to {
+      background-position: 350% 50%, 350% 50%;
+    }
+  }
+}
+
+@layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+}
+
+@layer components {
+  .gradient-button {
+    background: linear-gradient(90deg, #151ab2 0%, #4c68e2 100%);
+    box-shadow: 0 4px 14px 0 rgba(21, 26, 178, 0.39);
+  }
+  .gradient-button:hover {
+    background: linear-gradient(90deg, #151ab2 0%, #4c68e2 100%);
+    box-shadow: 0 6px 20px rgba(21, 26, 178, 0.23);
+  }
+  .gradient-button-variant {
+    background: linear-gradient(90deg, #ffd52f 0%, #fea724 100%);
+    color: #1a1a1a;
+    box-shadow: 0 4px 14px 0 rgba(254, 167, 36, 0.39);
+  }
+  .gradient-button-variant:hover {
+    background: linear-gradient(90deg, #ffd52f 0%, #fea724 100%);
+    box-shadow: 0 6px 20px rgba(254, 167, 36, 0.23);
+  }
+}
+
+body {
+  font-family: "Archivo", sans-serif;
+  color: #4a4a4a;
+  overflow-x: hidden;
+}
