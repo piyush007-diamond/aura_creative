@@ -76,7 +76,7 @@ const Contact = () => {
      * 6. Copy the Web App URL and replace the fetch URL below.
      */
     
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz7H7JKjav8vtY-YaLnBZxsfmhPZFzsR1xKnQe4LeZwpMvooIBItpfZngv1C2Tdpqiu/exec";
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwaV1U1zmB4d0NDMdyOPCNYqDwUGPNhckFuoJidfA46ni61svRRVKZT7lNgC1BppuaW/exec";
 
     const formData = new URLSearchParams();
     Object.entries(formState).forEach(([key, value]) => {
