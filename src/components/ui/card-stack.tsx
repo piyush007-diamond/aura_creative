@@ -373,9 +373,18 @@ export function CardStack<T extends CardStackItem>({
   );
 }
 
-function DefaultFanCard({ item }: { item: CardStackItem; active: boolean }) {
+function DefaultFanCard({ item, active }: { item: CardStackItem; active: boolean }) {
+  const handleCardClick = () => {
+    if (active && item.href && window.innerWidth < 768) {
+      window.open(item.href, "_blank");
+    }
+  };
+
   return (
-    <div className="relative h-full w-full bg-gray-900 group">
+    <div 
+      className="relative h-full w-full bg-gray-900 group"
+      onClick={handleCardClick}
+    >
       {/* image */}
       <div className="absolute inset-0">
         {item.imageSrc ? (
