@@ -48,8 +48,25 @@ const projects: CardStackItem[] = [
     tag: 'Productivity App'
   }
 ];
-
 const Projects = () => {
+  const [cardDims, setCardDims] = React.useState({ width: 600, height: 400 });
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setCardDims({ width: 320, height: 380 });
+      } else if (window.innerWidth < 768) {
+        setCardDims({ width: 450, height: 400 });
+      } else {
+        setCardDims({ width: 600, height: 400 });
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <section id="projects" className="py-20 bg-gray-50 overflow-hidden">
       <div className="container mx-auto px-4 md:px-8">
@@ -67,8 +84,8 @@ const Projects = () => {
         <div className="flex justify-center items-center w-full max-w-5xl mx-auto">
           <CardStack 
             items={projects} 
-            cardWidth={600}
-            cardHeight={400}
+            cardWidth={cardDims.width}
+            cardHeight={cardDims.height}
             overlap={0.5}
             spreadDeg={40}
             autoAdvance={true}

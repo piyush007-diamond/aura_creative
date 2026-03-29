@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Layout, BookOpen, Briefcase, User, ShoppingCart, PenTool } from 'lucide-react';
@@ -98,6 +98,11 @@ const cardStyles = [
 const Services = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const [activeCard, setActiveCard] = useState<number | null>(null);
+
+  const handleCardClick = (id: number) => {
+    setActiveCard(activeCard === id ? null : id);
+  };
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -138,8 +143,12 @@ const Services = () => {
               ref={el => cardsRef.current[index] = el}
               className="group relative h-[380px] w-full perspective-1000"
             >
-              {/* Card Inner */}
-              <div className="w-full h-full transition-all duration-500 transform-style-3d group-hover:rotate-y-180 shadow-lg rounded-2xl">
+                <div 
+                  onClick={() => handleCardClick(service.id)}
+                  className={`w-full h-full transition-all duration-700 transform-style-3d shadow-xl rounded-2xl cursor-pointer ${
+                    activeCard === service.id ? 'rotate-y-180' : 'md:group-hover:rotate-y-180'
+                  }`}
+                >
                 
                 {/* Front Side */}
                 <div className={`absolute inset-0 w-full h-full backface-hidden bg-gradient-to-br ${cardStyles[index % cardStyles.length]} rounded-2xl p-6 flex flex-col text-left overflow-hidden`}>
