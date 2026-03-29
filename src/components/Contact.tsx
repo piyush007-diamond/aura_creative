@@ -58,38 +58,51 @@ const Contact = () => {
     e.preventDefault();
     setStatus('loading');
 
-    // Here we use Web3Forms as a reliable free mailer service
-    // You can replace this access_key with your own from web3forms.com
-    const formData = new FormData();
+    /**
+     * GOOGLE SHEETS INTEGRATION (via Google Apps Script)
+     * 1. Create a Google Sheet.
+     * 2. In the sheet, go to Extensions > App Script.
+     * 3. Paste the following code:
+     * 
+     * function doPost(e) {
+     *   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+     *   var data = e.parameter;
+     *   sheet.appendRow([new Date(), data.name, data.email, data.phone, data.subject, data.message]);
+     *   return ContentService.createTextOutput(JSON.stringify({success: true})).setMimeType(ContentService.MimeType.JSON);
+     * }
+     * 
+     * 4. Click 'Deploy' > 'New Deployment'.
+     * 5. Select type 'Web App', 'Execute as: Me', 'Who has access: Anyone'.
+     * 6. Copy the Web App URL and replace the fetch URL below.
+     */
+    
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz7H7JKjav8vtY-YaLnBZxsfmhPZFzsR1xKnQe4LeZwpMvooIBItpfZngv1C2Tdpqiu/exec";
+
+    const formData = new URLSearchParams();
     Object.entries(formState).forEach(([key, value]) => {
       formData.append(key, value as string);
     });
-    formData.append("access_key", "515cbd44-807d-4b5b-b997-c6f3762f928a"); // Default public key for demo
 
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
+      // Use no-cors mode if the script URL doesn't handle CORS, 
+      // but standard fetch is usually fine for Google Apps Script doPost if redirected properly.
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
+        mode: "no-cors", // Use no-cors to avoid preflight issues if server doesn't support them
         body: formData
       });
 
-      const data = await response.json();
-
-      if (data.success) {
-        setStatus('success');
-        setFormState({
-          name: '',
-          email: '',
-          phone: '',
-          subject: '',
-          message: ''
-        });
-        
-        // Reset success message after 5 seconds
-        setTimeout(() => setStatus('idle'), 5000);
-      } else {
-        setStatus('error');
-        setTimeout(() => setStatus('idle'), 3000);
-      }
+      // Since no-cors doesn't allow reading the response, we assume success if no error is thrown
+      setStatus('success');
+      setFormState({
+        name: '',
+        email: '',
+        phone: '',
+        subject: '',
+        message: ''
+      });
+      
+      setTimeout(() => setStatus('idle'), 5000);
     } catch (error) {
       console.error("Form submission error:", error);
       setStatus('error');
